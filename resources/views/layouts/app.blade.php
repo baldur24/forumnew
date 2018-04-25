@@ -27,6 +27,8 @@
         <main class="py-4">
             @yield('content')
         </main>
+
+        <flash message="Temp msg"></flash>
     </div>
 
     <!-- Scripts -->
