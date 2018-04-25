@@ -22,6 +22,20 @@ class Thread extends Model
             $thread->replies()->delete();
         });
 
+        static::created(function ($thread) {
+            $thread->recordActivity('created');
+        });
+
+    }
+
+    protected function recordActivity($event)
+    {
+        Activity::create([
+            'user_id' => auth()->id(),
+            'type' => $event . '_' . strtolower((new \ReflectionClass($thread))->getShortName()),
+            'subject_id' => $thread->id,
+            'subject_type' => get_class($thread)
+        ]);
     }
 	
     public function path()
